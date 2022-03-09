@@ -25,19 +25,19 @@ public class Main {
     void game() {
         initTable();
         while (true) {
-            turnHooman();
+            turnHooman1();
             if (checkWin(Cross)){
-                System.out.println("YOU WON!");
+                System.out.println("Player 1 WON!");
                 break;
             }
             if (isTableFull()) {
                 System.out.println("Round draw!");
                 break;
             }
-            turnAI();
+            turnHooman2();
             printTable();
             if (checkWin(Zero)){
-                System.out.println("AI WON!");
+                System.out.println("Player 2 WON!");
                 break;
             }
             if (isTableFull()) {
@@ -63,7 +63,7 @@ public class Main {
         }
     }
 
-    void turnHooman() {
+    void turnHooman1() {
         int x, y;
         do {
             System.out.println("Enter X and Y (1..3):");
@@ -74,16 +74,18 @@ public class Main {
     }
 
     boolean isCellValid(int x, int y) {
-        if (x < 0 || y < 0 || x >= 3|| y >= 3)
-            return false;
+        if (x < 0 || y < 0 || x >= 3|| y >= 3) {
+            System.out.println("Wrong coordinates!");
+            return false;}
         return table[y][x] == EmptyToe;
     }
 
-    void turnAI() {
+    void turnHooman2() {
         int x, y;
         do {
-            x = random.nextInt(3);
-            y = random.nextInt(3);
+            System.out.println("Enter X and Y (1..3):");
+            x = scanner.nextInt() - 1;
+            y = scanner.nextInt() - 1;
         } while (!isCellValid(x, y));
         table[y][x] = Zero;
     }
