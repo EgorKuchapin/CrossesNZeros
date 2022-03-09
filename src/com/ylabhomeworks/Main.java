@@ -2,6 +2,8 @@ package com.ylabhomeworks;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.io.*;
+import java.util.Date;
 
 public class Main {
 
@@ -24,29 +26,49 @@ public class Main {
 
     void game() {
         initTable();
-        while (true) {
-            turnHooman1();
-            if (checkWin(Cross)){
-                System.out.println("Player 1 WON!");
-                break;
+        File ratings = new File("ratings.txt");
+        Date date = new Date();
+        try {
+            BufferedWriter recorder = new BufferedWriter(new FileWriter (ratings, true));
+            String lineSeparator = System.getProperty("line.separator");
+            while (true) {
+                turnHooman1();
+                if (checkWin(Cross)) {
+                    System.out.println("Player 1 WON!");
+                    recorder.write(date+" Player 1 WON!" + lineSeparator);
+                    recorder.flush();
+                    recorder.close();
+                    break;
+                }
+                if (isTableFull()) {
+                    System.out.println("Round draw!");
+                    recorder.write(date+" Round draw!" + lineSeparator);
+                    recorder.flush();
+                    recorder.close();
+                    break;
+                }
+                turnHooman2();
+                printTable();
+                if (checkWin(Zero)) {
+                    System.out.println("Player 2 WON!");
+                    recorder.write(date+" Player 2 WON!" + lineSeparator);
+                    recorder.flush();
+                    recorder.close();
+                    break;
+                }
+                if (isTableFull()) {
+                    System.out.println("Round draw!");
+                    recorder.write(date+" Round draw!" + lineSeparator);
+                    recorder.flush();
+                    recorder.close();
+                    break;
+                }
             }
-            if (isTableFull()) {
-                System.out.println("Round draw!");
-                break;
-            }
-            turnHooman2();
+            System.out.println("GAME IS OVER! Restart?");
             printTable();
-            if (checkWin(Zero)){
-                System.out.println("Player 2 WON!");
-                break;
-            }
-            if (isTableFull()) {
-                System.out.println("Round draw!");
-                break;
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("GAME OVER M8 GOT REKT");
-        printTable();
     }
 
     void initTable() {
