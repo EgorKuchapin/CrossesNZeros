@@ -11,6 +11,8 @@ public class Main {
     final char Zero = '0';
     final char EmptyToe = '*';
     char [][] table;
+    String name1;
+    String name2;
     Random random;
     Scanner scanner;
 
@@ -28,14 +30,15 @@ public class Main {
         initTable();
         File ratings = new File("ratings.txt");
         Date date = new Date();
+        namingPlayers();
         try {
             BufferedWriter recorder = new BufferedWriter(new FileWriter (ratings, true));
             String lineSeparator = System.getProperty("line.separator");
             while (true) {
                 turnHooman1();
                 if (checkWin(Cross)) {
-                    System.out.println("Player 1 WON!");
-                    recorder.write(date+" Player 1 WON!" + lineSeparator);
+                    System.out.println(name1 + " WON!");
+                    recorder.write(date+" "+name1+" WON!" + lineSeparator);
                     recorder.flush();
                     recorder.close();
                     break;
@@ -50,8 +53,8 @@ public class Main {
                 turnHooman2();
                 printTable();
                 if (checkWin(Zero)) {
-                    System.out.println("Player 2 WON!");
-                    recorder.write(date+" Player 2 WON!" + lineSeparator);
+                    System.out.println(name2+" WON!");
+                    recorder.write(date+" "+name2+" WON!" + lineSeparator);
                     recorder.flush();
                     recorder.close();
                     break;
@@ -83,6 +86,14 @@ public class Main {
                 System.out.print(table[row][col] + " ");
             System.out.println();
         }
+    }
+
+    void namingPlayers()  {
+        System.out.println("Greetings! Name yourself, Player 1!");
+        name1 = scanner.nextLine();
+        System.out.println("Good! Now name yourself, Player 2!");
+        name2 = scanner.nextLine();
+        System.out.println("Excellent! Starting the game...");
     }
 
     void turnHooman1() {
